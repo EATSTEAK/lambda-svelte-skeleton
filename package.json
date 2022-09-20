@@ -4,10 +4,10 @@
   "description": "Template for Lambda, S3 Full-stack example with Svelte.",
   "private": true,
   "scripts": {
-    "build": "pnpm build -r --stream",
-    "dev": "pnpm dev -r --stream",
-    "delete": "pnpm delete --filter=client && pnpm delete --filter=server --stream",
-    "deploy": "pnpm deploy --filter=server && pnpm deploy --filter=client --stream"
+    "build": "concurrently -p \"[{name} / {time}]\" -c \"green,magenta\" -n \"client,server\" \"pnpm run -r --filter=client build \" \"pnpm run -r -filter=server build\"",
+    "dev": "concurrently -p \"[{name} / {time}]\" -c \"green,magenta\" -n \"client,server\" \"pnpm run -r --filter=client dev \" \"pnpm run -r -filter=server dev\"",
+    "delete": "pnpm run --filter=client delete && pnpm run --filter=server delete",
+    "deploy": "node ./scripts/deploy.js"
   },
   "repository": {
     "type": "git",
